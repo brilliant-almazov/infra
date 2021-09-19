@@ -1,0 +1,36 @@
+---
+kind: pipeline
+type: docker
+name: default
+
+clone:
+    depth: 1
+
+steps:
+    -   name: deploy
+        image: automagistre/docker-compose:stable
+        volumes:
+            -   name: env
+                path: /drone/src/.env
+            -   name: docker.sock
+                path: /var/run/docker.sock
+            -   name: config
+                path: /opt/config
+        commands:
+            - cp prometheus.yml /opt/config/prometheus.yml
+            - PROMETHEUS_HASH=$$(md5sum prometheus.yml | tr ' ' '\n' | head -1) docker-compose config | docker stack deploy --prune --with-registry-auth --compose-file - infra
+        when:
+            branch:
+                - master
+                - rc
+
+volumes:
+    -   name: docker.sock
+        host:
+            path: /var/run/docker.sock
+    -   name: env
+        host:
+            path: /opt/secrets/automagistre
+    -   name: config
+        host:
+            path: /opt/monitoring/prometheus/config
