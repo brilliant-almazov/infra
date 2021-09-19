@@ -375,7 +375,5 @@ networks:
     prometheus:
         driver: overlay
         name: prometheus
-    sonarqube:
-        driver: overlay
     portainer:
         driver: overlay
