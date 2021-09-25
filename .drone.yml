@@ -14,10 +14,10 @@ steps:
                 path: /drone/src/.env
             -   name: docker.sock
                 path: /var/run/docker.sock
-            -   name: config
-                path: /opt/config
+            -   name: infra
+                path: /opt/infra
         commands:
-            - cp prometheus.yml /opt/config/prometheus.yml
+            - cp prometheus.yml /opt/infra/prometheus/config/prometheus.yml
             - PROMETHEUS_HASH=$$(md5sum prometheus.yml | tr ' ' '\n' | head -1) docker-compose config | docker stack deploy --prune --with-registry-auth --compose-file - infra
         when:
             branch:
@@ -31,6 +31,6 @@ volumes:
     -   name: env
         host:
             path: /opt/secrets/automagistre
-    -   name: config
+    -   name: infra
         host:
-            path: /opt/monitoring/prometheus/config
+            path: /opt/infra
