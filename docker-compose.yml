@@ -170,7 +170,7 @@ services:
         command:
             - --config.file=/etc/prometheus/prometheus.yml
             - --storage.tsdb.path=/var/lib/prometheus
-            - --storage.tsdb.retention=24h
+            - --storage.tsdb.retention=30d
         environment:
             PROMETHEUS_HASH: ${PROMETHEUS_HASH}
         volumes:
