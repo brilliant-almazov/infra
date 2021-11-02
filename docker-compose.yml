@@ -131,7 +131,7 @@ services:
             disable: true
 
     keycloak:
-        image: jboss/keycloak:15.0.0
+        image: jboss/keycloak:15.0.2
         command:
             - -b
             - 0.0.0.0
@@ -157,7 +157,7 @@ services:
                 delay: 5s
             labels:
                 - "traefik.enable=true"
-                - "traefik.http.routers.infra-keycloak.rule=Host(`auth.automagistre.ru`)"
+                - "traefik.http.routers.infra-keycloak.rule=Host(`auth.automagistre.ru`, `sso.automagistre.ru`)"
                 - "traefik.http.routers.infra-keycloak.entrypoints=websecure"
                 - "traefik.http.routers.infra-keycloak.tls=true"
                 - "traefik.http.routers.infra-keycloak.tls.certresolver=leresolver"
